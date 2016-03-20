@@ -1,0 +1,46 @@
+version: '2'
+services:
+  sentry:
+    image: sentry
+    ports:
+      - "9000:9000"
+    environment:
+      SENTRY_SECRET_KEY:
+      SENTRY_REDIS_HOST: redis
+      SENTRY_MEMCACHED_HOST: memcached
+      SENTRY_POSTGRES_HOST: postgres
+      SENTRY_DB_NAME: sentry
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: sentry
+  worker:
+    image: sentry
+    command: celery worker
+    environment:
+      SENTRY_SECRET_KEY:
+      SENTRY_REDIS_HOST: redis
+      SENTRY_MEMCACHED_HOST: memcached
+      SENTRY_POSTGRES_HOST: postgres
+      SENTRY_DB_NAME: sentry
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: sentry
+  beat:
+    image: sentry
+    command: celery beat
+    environment:
+      SENTRY_SECRET_KEY:
+      SENTRY_REDIS_HOST: redis
+      SENTRY_MEMCACHED_HOST: memcached
+      SENTRY_POSTGRES_HOST: postgres
+      SENTRY_DB_NAME: sentry
+      SENTRY_DB_USER: sentry
+      SENTRY_DB_PASSWORD: sentry
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: sentry
+      POSTGRES_PASSWORD: sentry
+      POSTGRES_DB: sentry
+  redis:
+    image: redis
+  memcached:
+    image: memcached
